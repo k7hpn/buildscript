@@ -22,3 +22,10 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }} 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./build.bash -p
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Buildscript
+          path: package/buildscript-*.zip
+          if-no-files-found: ignore
+
