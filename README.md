@@ -24,7 +24,7 @@ Options (all are optional):
 - `-h, --help` - Print this help and exit
 - `-v, --verbose` - Print script debug info
 - `-df, --dockerfile` - Use the specified Dockerfile
-- `-p, --publish` - Run the release-publish.bash script in the container (if it's present)
+- `-p, --publish` - Run the release-prep and (in container) release-publish scripts (if present)
 - `Docker tag` - Override the guessed Docker tag (the current directory) with this value if present
 
 Environment variables (all are optional):

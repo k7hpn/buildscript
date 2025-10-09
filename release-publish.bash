@@ -9,11 +9,12 @@ usage() {
   cat <<EOF
 Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-f] -p param_value arg1 [arg2...]
 
-Script description here.
+Post-build release processing script
 
 Available options:
 
 -h, --help      Print this help and exit
+--no-color	Do not use color codes in script output
 -v, --verbose   Print script debug info
 EOF
   exit
@@ -63,34 +64,20 @@ parse_params() {
 parse_params "$@"
 setup_colors
 
-readonly BLD_PUBLISH_DIRECTORY=buildscript-${BLD_RELEASE_VERSION-}
+#script logic here
 
-msg "=== Installing necessary packages"
-apt update && apt install build-essential zip -y
+readonly PUB_STARTAT=$SECONDS
 
-cd /
+msg "${BLUE}===${NOFORMAT} Installing zip package"
 
-msg "=== Making directory ${BLD_PUBLISH_DIRECTORY-}"
-mkdir -p "${BLD_PUBLISH_DIRECTORY-}"
+apt-get update && apt-get install zip -y
 
-msg "=== Copying files into ${BLD_PUBLISH_DIRECTORY-}"
-cp -a app/* "${BLD_PUBLISH_DIRECTORY-}"
+msg "${BLUE}===${NOFORMAT} Publishing to buildscript-${BLD_RELEASE_VERSION}.zip"
 
-msg "=== Compressing files"
-zip -q -r9 "buildscript-${BLD_RELEASE_VERSION-}.zip" "${BLD_PUBLISH_DIRECTORY-}"/
+mkdir -p "/package" && \
+cd /app && \
+zip -q -r9 "/package/buildscript-${BLD_RELEASE_VERSION}.zip" "build.bash" && \
+du -sh "/package/buildscript-${BLD_RELEASE_VERSION}.zip"
 
-du -sch "${BLD_PUBLISH_DIRECTORY-}"/ "buildscript-${BLD_RELEASE_VERSION-}.zip"
+msg "${PURPLE}===${NOFORMAT} Publish script complete in $((SECONDS - PUB_STARTAT)) seconds."
 
-if [[ -n "${BLD_RELEASE_TOKEN-}" ]]; then
-  curl -L -O https://github.com/tfausak/github-release/releases/latest/download/github-release-linux.gz
-  gunzip github-release-linux.gz && chmod 700 github-release-linux && \
-  ./github-release-linux upload \
-  --token "${BLD_RELEASE_TOKEN-}" \
-  --owner "${BLD_RELEASE_OWNER-}" \
-  --repo "${BLD_RELEASE_REPO-}" \
-  --tag "v${BLD_RELEASE_VERSION-}" \
-  --file "buildscript-${BLD_RELEASE_VERSION-}.zip" \
-  --name "buildscript-${BLD_RELEASE_VERSION-}.zip"
-else
-  echo "=== No BLD_RELEASE_TOKEN configured, not pushing release artifacts to GitHub Releases"
-fi

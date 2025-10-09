@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.3.3] - 2025-10-09
+
+- Revert broken build changes
+- Improve release-prep.bash and release-publish.bash scripts
+- Change to manual deployment method
+- Revise and streamline Dockerfile
+- Add copy of release-publish script to Dockerfile
 
 ## [1.3.2] - 2025-09-17
 
@@ -49,7 +55,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub workflow `build.yml` to show how to call the script as a GitHub Action
 
 [unreleased]: https://github.com/mcld/buildscript/compare/v1.3.0...HEAD
-[1.2.0]: https://github.com/mcld/buildscript/compare/v1.2.0...v1.3.0
+[1.3.3]: https://github.com/mcld/buildscript/compare/v1.3.2...v1.3.3
+[1.3.2]: https://github.com/mcld/buildscript/compare/v1.3.0...v1.3.2
+[1.3.0]: https://github.com/mcld/buildscript/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/mcld/buildscript/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/mcld/buildscript/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/mcld/buildscript/compare/v1.0.0...v1.0.1
